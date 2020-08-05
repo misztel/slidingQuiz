@@ -3,7 +3,7 @@
     <div class="cards">
       <Card
         v-for="(card, index) in cards"
-        :key="card.index"
+        :key="card.id"
         :card="{card:card.question, index: -index}"
         :is-current="index === 0"
       />
@@ -21,7 +21,7 @@ export default {
 
   computed: {
     cards() {
-      return this.$store.state.cards;
+      return this.$store.getters.cards;
     },
   },
 };

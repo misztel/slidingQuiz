@@ -2,7 +2,7 @@
   <div
     class="card"
     @mousedown="counter"
-    :class="{isCurrent: isCurrent}"
+    :class="{isCurrent: isCurrent, right__confirmed: rightAnswer, left__confirmed: leftAnswer}"
     :style="{'z-index': card.index, 'transform': `translate(${drag}px) rotate(${deg}deg`}"
   >
     <h3 class="cardTitle"> {{ card.card }} <span>{{card.index}}</span></h3>
@@ -29,10 +29,13 @@ export default {
       deg: 0,
       max: 350,
       min: 90,
+      leftAnswer: false,
+      rightAnswer: false,
     };
   },
   methods: {
     counter(event) {
+      console.log(event.target);
       event.target.classList.remove('go__back');
       const startX = event.clientX;
       onmousemove = (e) => {
@@ -53,23 +56,18 @@ export default {
           console.log('relase');
 
           if (this.drag >= this.min && this.drag < this.max) {
-            event.target.classList.add('right__confirmed');
-            // this.cardData.shift();
-            // DELETE ITEM FROM ARRAY/OBJECT WITH QUESTIONS VUEX???
-            console.log(this.card.card);
+            console.log('cardData', this.cardData.index);
+            this.rightAnswer = true;
+            this.$store.commit('delCard'); // delete first card from stack after vote
           } else if (this.drag <= -this.min && this.drag > -this.max) {
-            event.target.classList.add('left__confirmed');
-            // this.cardData.shift();
+            this.leftAnswer = true;
+            this.$store.commit('delCard'); // delete first card from stack after vote
           }
 
           this.drag = 0;
           this.deg = 0;
         }
       };
-
-      if (event) {
-        console.log(this.cardData.card, this.count, event.clientX);
-      }
     },
   },
 };
@@ -100,6 +98,7 @@ export default {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   user-select: none;
   will-change: transform, opacity;
+  pointer-events: none;
 
   height: 100vw;
 }
@@ -121,6 +120,19 @@ export default {
   transform: translate(350px, 150px) rotate(45deg)!important;
   opacity: 0;
   transition: all 0.4s ease;
+}
+.isCurrent{
+  pointer-events: auto;
+}
+
+.answer{
+  color: blue;
+}
+.right{
+  color: green;
+}
+.left{
+  color: red;
 }
 
 </style>

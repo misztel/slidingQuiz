@@ -6,12 +6,19 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     cards: [
-      { question: 'Test Question - false', answer: false },
-      { question: 'Second Test Question - true', answer: false },
-      { question: 'Third Question - false', answer: false },
+      { id: 1, question: 'Test Question - false', answer: false },
+      { id: 2, question: 'Second Test Question - true', answer: true },
+      { id: 3, question: 'Third Question - false', answer: false },
+      { id: 4, question: 'Fourth Question - false', answer: false },
     ],
   },
+  getters: {
+    cards: (state) => state.cards,
+  },
   mutations: {
+    delCard: (state) => {
+      state.cards.shift();
+    },
   },
   actions: {
   },
