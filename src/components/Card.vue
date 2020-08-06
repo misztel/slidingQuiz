@@ -58,10 +58,16 @@ export default {
           if (this.drag >= this.min && this.drag < this.max) {
             console.log('cardData', this.cardData.index);
             this.rightAnswer = true;
-            this.$store.commit('delCard'); // delete first card from stack after vote
+            setTimeout(() => {
+              this.$store.commit('delCard'); // delete first card from stack after vote
+              this.$store.commit('proceedAnswer');
+            }, 300);
           } else if (this.drag <= -this.min && this.drag > -this.max) {
             this.leftAnswer = true;
-            this.$store.commit('delCard'); // delete first card from stack after vote
+            setTimeout(() => {
+              this.$store.commit('delCard'); // delete first card from stack after vote
+              this.$store.commit('proceedAnswer');
+            }, 300);
           }
 
           this.drag = 0;
